@@ -2,6 +2,12 @@
 #include <stdlib.h>
 #include <time.h>
 
+/**
+ * main - Entry point
+ * author: Caesar
+ * date:10-12-2022
+ * Return: 0 (pass)
+ */
 int main(void)
 {
 	int n;
