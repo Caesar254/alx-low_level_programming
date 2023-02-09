@@ -1,30 +1,32 @@
 #include "main.h"
 /**
- * create_file - creates a file and adds permission to it
- * @filename: The name of the file to be created
- * @text_content: content to be placed in the created file
- * Return: 1 if successfull and -1 on err.
+ * read_textfile - Reads a textfile and prints the contents to the POSIX STDOUT
+ * @filename: The name of the file to read from
+ * @letters: The number of characters it should print to the STDOUT
+ * Return: Returns the number of characters printed
  */
-int create_file(const char *filename, char *text_content)
+ssize_t read_textfile(const char *filename, size_t letters)
 {
-	ssize_t fild = 0, chk = 0, i = 0;
+	ssize_t fild = 0, chk = 0;
+	char *buffer;
 
-	if (!filename)
-		return (-1);
+	if (!filename || !letters)
+		return (0);
 
-	if (!text_content)
-		text_content = "";
-
-	fild = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 00600);
+	fild = open(filename, O_RDONLY);
 	if (fild < 0)
-		return (-1);
+		return (0);
 
-	while (text_content[i])
-		i++;
-	chk = write(fild, text_content, i);
+	buffer = malloc(sizeof(char) * (letters));
+	if (!buffer)
+		return (0);
+
+	chk = read(fild, buffer, letters);
+	chk = write(STDOUT_FILENO, buffer, chk);
 	if (chk < 0)
-		return (-1);
+		return (0);
 
 	close(fild);
-	return (1);
+	free(buffer);
+	return (chk);
 }
