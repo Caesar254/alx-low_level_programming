@@ -1,22 +1,15 @@
-#include "main.h"
-/**
- * main - check the code
- * @ac: arguments to the compiled file
- * @av: arguments to the compiled file
- * Return: Always 0.
- */
-int main(int ac, char **av)
-{
-	ssize_t n;
+#ifndef MAIN_H
+#define MAIN_H
 
-	if (ac != 2)
-	{
-		dprintf(2, "Usage: %s filename\n", av[0]);
-		exit(1);
-	}
-	n = read_textfile(av[1], 114);
-	printf("\n(printed chars: %li)\n", n);
-	n = read_textfile(av[1], 1024);
-	printf("\n(printed chars: %li)\n", n);
-	return (0);
-}
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+ssize_t read_textfile(const char *filename, size_t letters);
+int create_file(const char *filename, char *text_content);
+int append_text_to_file(const char *filename, char *text_content);
+
+#endif
